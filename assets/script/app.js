@@ -1,39 +1,55 @@
-function showSidebar(){
+function showSidebar() {
     const sidebar = document.getElementById('sidebar');
-    sidebar.style.display = 'flex';
+    if (sidebar) {
+        sidebar.classList.add('active');
+    }
 }
 
-function hidesidebar(){
+function hidesidebar() {
     const sidebar = document.getElementById('sidebar');
-    sidebar.style.display = 'none';
+    if (sidebar) {
+        sidebar.classList.remove('active');
+    }
 }
 
+// Window Scroll effect for Header
+window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+});
 
-// form validation 
+// Smooth Scroll for navigation links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    });
+});
 
-// const submitbtn = document.getElementById('submitbtn');
-// const fname = document.getElementById('fname');
-// const sname = document.getElementById('lname');
-// const email = document.getElementById('email');
+// Form Submission (Basic feedback)
+const contactForm = document.querySelector('.contact-us-form form');
+if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = this.querySelector('button');
+        const originalText = btn.innerText;
+        btn.innerText = 'Sending...';
+        btn.disabled = true;
 
-// submitbtn.addEventListener('click', function(e){
-//     e.preventDefault;
-//     if(fname.value.trim() === " "){
-//         alert('Input your First Name');
-//         fname.style.display= 'red'
-//         return false; 
-//     }else
-//     if(lname.value.trim() === " "){
-//         alert('Input your Last Name');
-//         lname.style.display= 'red'
-//         return false; 
-//     }else
-//     if(email.value.trim() === " "){
-//         alert('Input your Email');
-//         email.style.display= 'red'
-//         return false; 
-//     }
-//      else{
-//         alert ('your message has been recorded. Thank you')
-//      }
-// })
+        setTimeout(() => {
+            alert('Thank you! Your message has been sent successfully.');
+            btn.innerText = originalText;
+            btn.disabled = false;
+            this.reset();
+        }, 1500);
+    });
+}

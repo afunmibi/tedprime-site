@@ -1,102 +1,146 @@
+:root {
+  --primary: #ef6e11;
+  --primary-glow: rgba(239, 110, 17, 0.4);
+  --text-dark: #1e293b;
+  --text-light: #f8fafc;
+  --bg-dark: rgba(15, 23, 42, 0.8);
+  --glass: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --nav-height: 80px;
+  --font-main: 'Outfit', sans-serif;
+}
+
 * {
   padding: 0;
   margin: 0;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
 }
 
 body {
-  min-height: 100vh;
+  font-family: var(--font-main);
+  background: #ffffff;
+  color: var(--text-dark);
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: #ffffff;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+header.scrolled {
+  background: #ffffff;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid var(--glass-border);
 }
 
 nav {
-  border-radius: var(--numbers-space-0, 0px);
-  background: linear-gradient(
-    270deg,
-    rgba(239, 110, 17, 0.3) 2.92%,
-    rgba(128, 128, 128, 0.3) 95.07%
-  );
-
-  /* glassmorphism */
-  backdrop-filter: blur(5px);
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
-  padding: var(--numbers-space-1, 8px) var(--numbers-space-2, 16px);
+  height: var(--nav-height);
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
-  padding: var(--numbers-space-1, 8px) var(--numbers-space-2, 16px);
   justify-content: space-between;
   align-items: center;
-  align-self: stretch;
+  padding: 0 40px;
+}
+
+.logo-text {
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: var(--primary);
+  text-decoration: none;
+  letter-spacing: -0.5px;
 }
 
 nav ul {
-  width: 100%;
-  list-style-type: none;
+  list-style: none;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
-}
-
-nav li {
-  height: 50px;
+  gap: 30px;
 }
 
 nav a {
-  height: 100%;
-  padding: 0 30px;
   text-decoration: none;
-  display: flex;
-  align-items: center;
-  color: black;
+  color: var(--text-dark);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  padding: 8px 0;
+  position: relative;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s ease;
 }
 
 nav a:hover {
-  background-color: #f0f0f0;
+  color: var(--primary);
 }
 
-nav li:first-child {
-  margin-right: auto;
-}
-
-/* mobile responsiveness */
-
-.sidebar {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  width: 250px;
-  z-index: 999;
-  background: linear-gradient(
-    137deg,
-    rgba(128, 128, 128, 0.3) -1.01%,
-    rgba(0, 0, 0, 0.3) 98.75%
-  );
-  /* glassmorphism */
-  backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);
-  box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
-  display: none;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: 10px;
-}
-
-.sidebar li {
+nav a:hover::after {
   width: 100%;
-}
-
-.sidebar a {
-  width: 100%;
-}
-
-svg {
-  cursor: pointer;
 }
 
 .hamburger-btn {
   display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-dark);
 }
 
+/* Sidebar Styles Overlay */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  height: 100vh;
+  width: 300px;
+  background: #ffffff;
+  backdrop-filter: blur(20px);
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  gap: 20px;
+  transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar.active {
+  right: 0;
+}
+
+.sidebar li {
+  list-style: none;
+}
+
+.sidebar a {
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: block;
+}
+
+.sidebar .close-btn {
+  align-self: flex-end;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+/* Tablet & Mobile Responsiveness */
 @media (max-width: 800px) {
   .hideOnMobile {
     display: none;
@@ -106,7 +150,12 @@ svg {
     display: block;
   }
 }
-@media (max-width: 400px) {
+
+@media (max-width: 480px) {
+  nav {
+    padding: 0 20px;
+  }
+
   .sidebar {
     width: 100%;
   }
